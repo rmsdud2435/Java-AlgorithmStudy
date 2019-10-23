@@ -15,7 +15,7 @@
 ## 몰랐던 부분, 느낀점, 추후에 헷갈릴만한 내용 
 
 ### com.algorithm.stackqueue.StackQueueAlgorithm2
-* > 기능 개발
+* > 기능 개발  
 https://programmers.co.kr/learn/courses/30/lessons/42586
 
 실행 시간이 얼마 걸리지 않는 Job 테스트를 위한 메소드
