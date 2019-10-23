@@ -29,9 +29,10 @@ https://programmers.co.kr/learn/courses/30/lessons/42586
 https://programmers.co.kr/learn/courses/30/lessons/42579
 
 * 실제 코딩에서도 많이 사용되는 HashMap에 대해서 value를 토대로 정렬하기
-  > ```java
   
-  //Value를 토대로 Key를 정렬하여 뽑는 함수
+  ```java
+  
+  	//Value를 토대로 Key를 정렬하여 뽑는 함수
 	public static <String>ArrayList sortByValue(final Map map) {
 
 		ArrayList<String> list = new ArrayList();
