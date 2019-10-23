@@ -48,20 +48,11 @@ https://programmers.co.kr/learn/courses/30/lessons/42579
 
 		});
 		return list;
+		
+		//Collections.reverse(list); // 주석시 내림차순
 	}
   
   ```
   
 * Stream 자료형을 활용하면 더 짧게 코딩할 수 있다.
-  >알고리즘에선 Stream형 공부필수!
-
-
-### simpleCronTrigger Bean 객체
-
-@DisallowConcurrentExecution을 활용하여 중복제거.  
-만약, 이미 실행되고 있다면 배치 대기열에 추가 후 이전 배치 끝나자 마자 바로 실행
-
-### simpleCronTrigger2 Bean 객체
-
-JobExecutionContext 객체를 활용하여 중복제거.  
-만약, 이미 실행되고 있다면 로직 실행하지 않고 다음 배치 시간을 디다림
+  > 내가 짠 솔루션 아래에 심재훈이라는 분이 Music객체를 만들고 Comparable를 상속받아 Stream형을 활용하여 풀이한 소스가 있다. 정말 뛰어난 방법이라고 생각한다. 다시금 Stream의 활용성과 저런 방법도 있구나를 느꼈다. 
