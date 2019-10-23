@@ -26,7 +26,7 @@ public class HashAlgorithm1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String[] arr1 = {"mislav", "stanko", "mislav", "ana"};
-		String[] arr2 = {"stanko", "ana", "mislav"};
+		//String[] arr2 = {"stanko", "ana", "mislav"};
 
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for(String a : arr1) map.put(a, map.getOrDefault(a, 0) + 1);
