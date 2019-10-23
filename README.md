@@ -6,7 +6,7 @@
 >java : 1.8.X  
 
 ## 문제 출처
-* >url이 들어나는 링크 방법  
+>url이 들어나는 링크 방법  
 https://programmers.co.kr  
 https://www.codility.com
 
