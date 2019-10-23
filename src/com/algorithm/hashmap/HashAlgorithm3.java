@@ -125,6 +125,9 @@ public class HashAlgorithm3 {
 			}
 
 		});
+		
+		//Collections.reverse(list); // 주석시 내림차순
+		
 		return list;
 	}
 	
