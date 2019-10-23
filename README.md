@@ -6,9 +6,8 @@
 >java : 1.8.X  
 
 ## 문제 출처
->
-https://programmers.co.kr  
-https://www.codility.com
+>https://programmers.co.kr  
+>https://www.codility.com
 
 
 ## 특이사항
