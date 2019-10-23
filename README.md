@@ -1,5 +1,7 @@
 # Spring5-Java-AlgorithmStudy
-자바를 활용하여 여러 알고리즘에 대해 코딩해보기
+자바를 활용하여 여러 알고리즘에 대해 코딩해보기  
+이때까지 알고리즘 문제들을 여기저기 프로젝트에 풀고 지웠는데 정리할 필요성을 느꼈다.  
+풀었던 모든 문제를 찾지는 못했지만 현재까지 남아있던 문제들은 옮기고 이제부터 푸는 문제에 대해 몰랐던 점 및 느낀점 혹은 추후에 헷갈릴만한 내용을 정리할 것이다.  
 
 ## 사용된 버전
 
@@ -10,9 +12,11 @@
 >https://www.codility.com
 
 
-## 특이사항
+## 몰랐던 부분, 느낀점, 추후에 헷갈릴만한 내용 
 
-### SimpleService의 printHelloWorld()
+### com.algorithm.stackqueue.StackQueueAlgorithm2
+* > 기능 개발
+https://programmers.co.kr/learn/courses/30/lessons/42586
 
 실행 시간이 얼마 걸리지 않는 Job 테스트를 위한 메소드
 
