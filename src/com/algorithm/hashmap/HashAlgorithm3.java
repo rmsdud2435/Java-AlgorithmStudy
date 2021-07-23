@@ -131,7 +131,7 @@ public class HashAlgorithm3 {
 		return list;
 	}
 	
-	// 맘에 들었던 모범답안 by 심재훈님
+	//모범답안
 	public class Music implements Comparable<Music> {
 
 		private int 	played;

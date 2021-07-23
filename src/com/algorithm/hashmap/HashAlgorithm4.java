@@ -1,15 +1,8 @@
 package com.algorithm.hashmap;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class HashAlgorithm4 {
 	
@@ -41,8 +34,18 @@ public class HashAlgorithm4 {
 	 * 
 	 */
 
+	public static void main(String[] args) {
+		// clothes	return
+		// [["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]	5
+		// [["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]	3
+		String[][] clothes = {{"yellowhat", "headgear"},{"bluesunglasses", "eyewear"},{"green_turban", "headgear"}};
+		System.out.println(solution(clothes));
+		String[][] clothes2 = {{"crowmask", "face"},{"bluesunglasses", "face"},{"smoky_makeup", "face"}};
+		System.out.println(solution(clothes2));
+	}
+	
 	// 내 답안
-	public int solution(String[][] clothes) {
+	static public int solution(String[][] clothes) {
 		HashMap<String, Integer> hashmap = new HashMap<String, Integer>();
 		for (String clothe[] : clothes) {
 			if (!hashmap.containsKey(clothe[1])) {
@@ -64,4 +67,25 @@ public class HashAlgorithm4 {
 		choices -= 1;
 		return choices;
 	}
+	
+	//모범 답안
+	static public int solution2(String[][] clothes) {
+        int answer = 1;
+        // 1단계 : 키와 값의 형태가 코딩이 쉽겠다 ==> 자료구조 선택 : HashMap
+        // 2단계 : 키가 존재하지 않으면 1, 존재하면 기존값+1
+        HashMap<String, Integer> map = new HashMap<String, Integer>(); // 종류 : 갯수
+        for (int i = 0; i < clothes.length; i++) { // 예) ["yellowhat", "headgear"] ==> [0, 1]
+			// 현재 의상의 종류가 존재하지 않으면 1개를 넣고, 존재하면 기존값 + 1을 넣는다
+        	if(map.get(clothes[i][1]) == null) { // 예) clothes[i][1] 는 "headgear"
+        		map.put(clothes[i][1], 1);
+        	} else {
+        		map.put(clothes[i][1], map.get(clothes[i][1]) + 1);
+        	}
+		}
+        System.out.println(map); // {eyewear=1, headgear=2}
+        for (String key : map.keySet()) {
+			answer *= (map.get(key) + 1); // +1은 착용 안하는 경우 포함
+		}
+        return answer - 1; // -1은 반드시 하나는 착용(둘 다 착용안하는 경우를 뺀다)
+    }
 }

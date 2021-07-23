@@ -27,22 +27,21 @@ public class HashAlgorithm1 {
 	 * 
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String[] arr1 = {"mislav", "stanko", "mislav", "ana"};
 		String[] arr2 = {"stanko", "ana", "mislav"};
 		
-		String answer = function(arr1, arr2);
-		System.out.println(answer);
+		//내 답안
+		String answer1 = function1(arr1, arr2);
+		System.out.println(answer1);
 		
-		HashMap<Character, Integer> ma= new HashMap<Character, Integer>();
-		for(Character a :ma.keySet()) {
-			
-		}
+		//모법 답안
+		String answer2 = function2(arr1, arr2);
+		System.out.println(answer2);
 		
 
 	}
 	
-	public static String function(String[] participant, String[] completion) {
+	public static String function1(String[] participant, String[] completion) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for(String player: completion) {			
 			int value =1;
@@ -52,7 +51,6 @@ public class HashAlgorithm1 {
 			}
 			map.put(player, value);
 		}
-		System.out.println(map);
         
 		for(String competent: participant) {
 			if(map.containsKey(competent)) {
@@ -66,28 +64,33 @@ public class HashAlgorithm1 {
 				return competent;
 			}
 		}
-        	
-		ArrayList<Integer> array = new ArrayList<Integer>();
-		//array.remove(index)
-		
+        
         return "something wrong";
-		
-		
-	       
-        for(int a=2; a<=n; a++){
-            int count =0;
-            for(int b=1; b<=a/2; b++){
-                if(a%b==0){
-                    count ++;
-                    if(count>1){
-                        break;
-                    }
-                }
-            }
-            
-            if(count==1){
-                answer++;
-            }
-        }
+	}
+	
+	public static String function2(String[] participant, String[] completion) {
+		String answer = "";
+		// 1단계 : 참여자를 키와 값의 형태로 만든다. 이름 : 수
+		// 2단계 : 완주자를 가지고 -1을 한다.
+		// 3단계 : 1인 사람이 답
+		HashMap<String, Integer> map = new HashMap<>(); // 1-1. 자료 구조 준비!!!
+		for (String name : participant) {
+			// 없을 때 ==> 홍길동 : 0(기존값이 null이면 0) + 1, 있을 때 ==> 홍길동 : (기존값) + 1
+			int su = map.getOrDefault(name, 0) + 1; // 2줄로 풀어쓰기
+			map.put(name, su);
+		}
+		// System.out.println(map); // {leo=1, eden=1, kiki=1}
+		for (String name : completion) {
+			map.put(name, map.get(name) - 1);
+		}
+		// System.out.println(map); // {leo=1, eden=0, kiki=0}
+		// System.out.println(map.keySet()); // [leo, eden, kiki]
+		for (String name : map.keySet()) { // 키가 필요하다
+			if (map.get(name) == 1) {
+				answer = name;
+				break; // 찾았으면 반복문 종료!!!
+			}
+		}
+		return answer;	
 	}
 }

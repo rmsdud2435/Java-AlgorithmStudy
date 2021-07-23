@@ -2,7 +2,7 @@ package com.ktds.algo;
 
 import java.util.*;
 
-public class P09_로또번호생성 {
+public class E02_로또번호생성기 {
     public static void main(String[] args) {
     	//1~45 중에 중복없이 6개 담는다.
     	//정렬

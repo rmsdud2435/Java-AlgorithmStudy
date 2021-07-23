@@ -90,4 +90,54 @@ public class StackQueueAlgorithm2 {
 		return answer;
 	}
 	
+	public static int[] bestAnswer(int[] progresses, int[] speeds) {
+		
+		//배포하는데 걸리는 시간
+		Queue<Integer> jobDays = new LinkedList<Integer>();
+		//List를 int[]로 바꿔줄 임시 변수
+		List<Integer> tempAnswer = new ArrayList<Integer>();
+		
+		//남은 일량/일률을 올림처리한 후 저장
+		for(int i = 0; i < progresses.length; i++ ){
+			jobDays.add((int) Math.ceil(((100-progresses[i])/(double)speeds[i])));
+		}
+		
+		//첫배포일 정하기
+		int cnt = 1;
+		int firstJobDay = jobDays.poll();
+		while(jobDays.size() > 0){	
+			//마지막 일이면
+			if(jobDays.size() == 1){
+				//기준배포일보다 마지막배포일이 늦으면 따로 배포
+				if(firstJobDay < jobDays.peek()){					
+					tempAnswer.add(cnt);
+					tempAnswer.add(1);
+				//아닐 경우 같이 배포
+				}else{
+					tempAnswer.add(cnt+1);
+				}
+				break;
+			//기준배포일보다 작으면 같이 배포
+			}else if(firstJobDay >= jobDays.peek()){
+				cnt += 1;
+				jobDays.remove();
+			//기준배포일보다 크면 이전것까지 배포완료하고 현재일이 기준배포일로 변경
+			}else{
+				tempAnswer.add(cnt);
+				cnt = 1;
+				firstJobDay = jobDays.poll();
+			}
+			
+		}
+		
+		//List를 int[]로 변환
+		int[] answer = new int[tempAnswer.size()];
+		for(int i = 0; i < tempAnswer.size(); i++){
+			answer[i] = tempAnswer.get(i);
+		}
+		
+		System.out.print(answer.toString());
+		return answer;
+	}
+	
 }
