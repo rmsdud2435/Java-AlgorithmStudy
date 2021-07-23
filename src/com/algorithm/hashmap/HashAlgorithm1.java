@@ -1,7 +1,10 @@
 package com.algorithm.hashmap;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class HashAlgorithm1 {
 
@@ -26,10 +29,65 @@ public class HashAlgorithm1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String[] arr1 = {"mislav", "stanko", "mislav", "ana"};
-		//String[] arr2 = {"stanko", "ana", "mislav"};
+		String[] arr2 = {"stanko", "ana", "mislav"};
+		
+		String answer = function(arr1, arr2);
+		System.out.println(answer);
+		
+		HashMap<Character, Integer> ma= new HashMap<Character, Integer>();
+		for(Character a :ma.keySet()) {
+			
+		}
+		
 
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		for(String a : arr1) map.put(a, map.getOrDefault(a, 0) + 1);
+	}
+	
+	public static String function(String[] participant, String[] completion) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		for(String player: completion) {			
+			int value =1;
+			if(map.containsKey(player)) {
+				value = map.get(player);
+				value += 1;
+			}
+			map.put(player, value);
+		}
 		System.out.println(map);
+        
+		for(String competent: participant) {
+			if(map.containsKey(competent)) {
+				int value = map.get(competent);
+				if(value == 0) {
+					return competent;
+				}else {
+					map.put(competent, value -1);
+				}
+			}else {
+				return competent;
+			}
+		}
+        	
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		//array.remove(index)
+		
+        return "something wrong";
+		
+		
+	       
+        for(int a=2; a<=n; a++){
+            int count =0;
+            for(int b=1; b<=a/2; b++){
+                if(a%b==0){
+                    count ++;
+                    if(count>1){
+                        break;
+                    }
+                }
+            }
+            
+            if(count==1){
+                answer++;
+            }
+        }
 	}
 }

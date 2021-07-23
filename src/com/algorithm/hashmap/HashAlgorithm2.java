@@ -33,4 +33,10 @@ public class HashAlgorithm2 {
 	        return true;
 	    }
 	}
+	
+	class Solution3 {
+	    public boolean solution(String[] s) {
+	      
+	    }
+	}
 }
