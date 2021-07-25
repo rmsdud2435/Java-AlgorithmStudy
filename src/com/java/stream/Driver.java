@@ -26,8 +26,5 @@ class Driver {
 	    String a = "hello";
 	    a.length();
 	    System.out.println();
-	    
-	    PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-	    pq.
 	  }
 	}

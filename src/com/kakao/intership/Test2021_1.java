@@ -22,7 +22,7 @@ class Solution {
         		int movement = Integer.parseInt(tempText[1]);
         		position += movement;
         	}else if(cmdLine.equals("C")) {
-        		answer.
+        		//answer.
         	}
         }
         
