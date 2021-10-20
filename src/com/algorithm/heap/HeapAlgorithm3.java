@@ -89,5 +89,6 @@ class HeapAlgorithm3 {
     		answer[1] = minQueue.peek();
     	}
         return answer;
+        
     }// solution} 
 }
