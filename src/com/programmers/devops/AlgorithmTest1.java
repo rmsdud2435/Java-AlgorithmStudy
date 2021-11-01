@@ -1,10 +1,5 @@
 package com.programmers.devops;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-
 /**
  * A카드사 홈페이지에 가입된 아이디들은 다음과 같은 형태를 갖추고 있습니다.
  *
@@ -126,7 +121,6 @@ import java.util.*;
 
 class AlgorithmTest1 {
     public int solution(int leave, String day, int[] holidays) {
-        int answer = -1;
         
         ArrayList<Integer> holidaysArray = new ArrayList<Integer>();
         for(int holyday: holidays){
