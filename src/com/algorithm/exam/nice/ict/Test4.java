@@ -8,7 +8,7 @@ public class Test4 {
         I1 i1 = b; 
 
         I3 i3 = b;
-        I2 i2 = a;
+        //I2 i2 = a;
         a = b;
     }
 }
