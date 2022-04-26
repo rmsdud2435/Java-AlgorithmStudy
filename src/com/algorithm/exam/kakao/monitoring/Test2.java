@@ -11,6 +11,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 
+
 class Result {
 
     /*
@@ -18,44 +19,45 @@ class Result {
      *
      * The function is expected to return an INTEGER_ARRAY.
      * The function accepts following parameters:
-     *  1. INTEGER X
-     *  2. INTEGER_ARRAY arr
-     *  3. INTEGER_ARRAY indexes
+     *  1. INTEGER_ARRAY teamK
+     *  2. INTEGER_ARRAY teamB
      */
 
-    public static List<Integer> solution(int X, List<Integer> arr, List<Integer> indexes) {
+    public static List<Integer> solution(List<Integer> teamK, List<Integer> teamB) {
     // Write your code here
     List<Integer> answer = new ArrayList<Integer>();
-    List<Integer> position = new ArrayList<Integer>();
-    for(int i =0; i < arr.size(); i++){
-        if(arr.get(i)==X){
-            position.add(i);           
-        }
-    }
-    
-    for(int index: indexes){
-        if(position.size() <  index){
-            answer.add(-1);
+    HashMap<Integer, Integer> value = new HashMap<Integer, Integer>();
+    Collections.sort(teamK);
+    for(int score: teamB){
+        if(value.containsKey(score)){
+            answer.add(value.get(score));
         }else{
-            int value= position.get(index-1);
-            answer.add(value+1);
+            for(int i =0; i < teamK.size(); i++){
+                if(teamK.get(i)>score){
+                    answer.add(i);
+                    value.put(score,i);
+                    break;
+                }else if(i == teamK.size()-1){
+                    answer.add(i+1);
+                    value.put(score,i+1);
+                }
+            }  
         }
     }
-    
     return answer;
+
     }
 
 }
+
 public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int X = Integer.parseInt(bufferedReader.readLine().trim());
+        int teamKCount = Integer.parseInt(bufferedReader.readLine().trim());
 
-        int arrCount = Integer.parseInt(bufferedReader.readLine().trim());
-
-        List<Integer> arr = IntStream.range(0, arrCount).mapToObj(i -> {
+        List<Integer> teamK = IntStream.range(0, teamKCount).mapToObj(i -> {
             try {
                 return bufferedReader.readLine().replaceAll("\\s+$", "");
             } catch (IOException ex) {
@@ -66,9 +68,9 @@ public class Solution {
             .map(Integer::parseInt)
             .collect(toList());
 
-        int indexesCount = Integer.parseInt(bufferedReader.readLine().trim());
+        int teamBCount = Integer.parseInt(bufferedReader.readLine().trim());
 
-        List<Integer> indexes = IntStream.range(0, indexesCount).mapToObj(i -> {
+        List<Integer> teamB = IntStream.range(0, teamBCount).mapToObj(i -> {
             try {
                 return bufferedReader.readLine().replaceAll("\\s+$", "");
             } catch (IOException ex) {
@@ -79,7 +81,7 @@ public class Solution {
             .map(Integer::parseInt)
             .collect(toList());
 
-        List<Integer> result = Result.solution(X, arr, indexes);
+        List<Integer> result = Result.solution(teamK, teamB);
 
         bufferedWriter.write(
             result.stream()
