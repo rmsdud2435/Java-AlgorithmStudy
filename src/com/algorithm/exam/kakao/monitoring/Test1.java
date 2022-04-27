@@ -1,3 +1,5 @@
+package com.algorithm.exam.kakao.monitoring;
+
 import java.io.*;
 import java.math.*;
 import java.security.*;
@@ -10,43 +12,40 @@ import java.util.stream.*;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
+/*
+ * Complete the 'solution' function below.
+ *
+ * The function is expected to return an INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. INTEGER X
+ *  2. INTEGER_ARRAY arr
+ *  3. INTEGER_ARRAY indexes
+ */
 
-class Result {
 
-    /*
-     * Complete the 'solution' function below.
-     *
-     * The function is expected to return an INTEGER_ARRAY.
-     * The function accepts following parameters:
-     *  1. INTEGER X
-     *  2. INTEGER_ARRAY arr
-     *  3. INTEGER_ARRAY indexes
-     */
-
+public class Test1 {
     public static List<Integer> solution(int X, List<Integer> arr, List<Integer> indexes) {
-    // Write your code here
-    List<Integer> answer = new ArrayList<Integer>();
-    List<Integer> position = new ArrayList<Integer>();
-    for(int i =0; i < arr.size(); i++){
-        if(arr.get(i)==X){
-            position.add(i);           
-        }
-    }
+	    // Write your code here
+	    List<Integer> answer = new ArrayList<Integer>();
+	    List<Integer> position = new ArrayList<Integer>();
+	    for(int i =0; i < arr.size(); i++){
+	        if(arr.get(i)==X){
+	            position.add(i);           
+	        }
+	    }
+	    
+	    for(int index: indexes){
+	        if(position.size() <  index){
+	            answer.add(-1);
+	        }else{
+	            int value= position.get(index-1);
+	            answer.add(value+1);
+	        }
+	    }
+	    
+	    return answer;
+    } 
     
-    for(int index: indexes){
-        if(position.size() <  index){
-            answer.add(-1);
-        }else{
-            int value= position.get(index-1);
-            answer.add(value+1);
-        }
-    }
-    
-    return answer;
-    }
-
-}
-public class Solution {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
@@ -79,7 +78,7 @@ public class Solution {
             .map(Integer::parseInt)
             .collect(toList());
 
-        List<Integer> result = Result.solution(X, arr, indexes);
+        List<Integer> result = solution(X, arr, indexes);
 
         bufferedWriter.write(
             result.stream()
@@ -91,4 +90,5 @@ public class Solution {
         bufferedReader.close();
         bufferedWriter.close();
     }
+
 }
