@@ -98,12 +98,13 @@ public class 연속된_로그인_일수 {
 		
 		String[] startDate = start_date.split(" ");
 		int weekCount = 0;
+		//시작하는 요일에 값 부여
 		for(int i = 0; i < weekDay.length; i ++) {
 			if(startDate[1].equals(weekDay[i])) {
 				weekCount = i;
 			}
 		}
-		
+	
 		Arrays.sort(login_dates);
 		
 		String[] currentDate = startDate[0].split("/");
@@ -121,11 +122,14 @@ public class 연속된_로그인_일수 {
 		
 		int currentCount = 0;
 		while(true) {
+			//현재일이 이벤트일 이면
 			if(currentMonth == loginMonth && currentDay == logintDay) {
+				//월~금이면
 				if(weekCount%7 < 5) {
 					currentCount++;
 				}
 				loginDateCount++;
+				//남은 이벤트 일자가 없으면
 				if(loginDateCount >= login_dates.length ) {
 					maxCount = GetMaxCount(maxCount, currentCount);
 					break;
@@ -136,12 +140,14 @@ public class 연속된_로그인_일수 {
 					
 				}
 			}else {
+				//원~금이면
 				if(weekCount%7 < 5) {
 					maxCount = GetMaxCount(maxCount, currentCount);
 					currentCount = 0;
 				}
 			}
 			
+			//현재일이 종료일이면
 			if(currentMonth == endMonth && currentDay == endDay) {
 				maxCount = GetMaxCount(maxCount, currentCount);
 				break;
@@ -157,6 +163,7 @@ public class 연속된_로그인_일수 {
 		return maxCount;
 	}
 	
+	//다음 날짜를 구하는 함수
 	public static String GetNextDay(int currentMonth, int currentDay, int[] monthDay) {
 		if(currentDay==monthDay[currentMonth-1]) {
 			currentMonth ++;
@@ -167,6 +174,7 @@ public class 연속된_로그인_일수 {
 		return Integer.toString(currentMonth) + "/" + Integer.toString(currentDay);
 	}
 	
+	//큰 값을 구하는 함수
 	public static int GetMaxCount(int maxCount, int currentCount) {
 		if(maxCount < currentCount) {
 			return currentCount;
