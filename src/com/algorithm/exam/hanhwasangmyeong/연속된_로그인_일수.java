@@ -1,5 +1,7 @@
 package com.algorithm.exam.hanhwasangmyeong;
 
+import java.util.Arrays;
+
 /**
  * 
  * 문제 설명
@@ -74,17 +76,102 @@ package com.algorithm.exam.hanhwasangmyeong;
 public class 연속된_로그인_일수 {
 
 	public static void main(String[] args) {
-		String start_date = "";
-		String end_date = "";
-		String[] login_dates = {};
+		
+		
+		//String start_date = "05/04 MON";
+		//String end_date = "05/30";
+		//String[] login_dates = {"05/26", "05/25", "05/27", "05/10", "05/11", "05/23", "05/22","05/21", "05/06", "05/09", "05/07", "05/08"};
+		
+		String start_date = "05/27 SUN";
+		String end_date = "06/16";
+		String[] login_dates = {"05/31", "05/30", "06/01", "06/04", "06/07", "06/06", "06/09", "06/08", "06/13", "06/14", "06/10"};
+		
 		System.out.println(solution(start_date, end_date, login_dates));
 
 	}
 	
 	public static int solution(String start_date, String end_date, String[] login_dates) {
-		int answer = 0;
+
+		int[] monthDay = {31,28,31,30,31,30,31,31,30,31,30,31};
+		String[] weekDay = {"MON","TUE","WED","THU","FRI","SAT","SUN"};
+		int maxCount = 0;
 		
-		return answer;
+		String[] startDate = start_date.split(" ");
+		int weekCount = 0;
+		for(int i = 0; i < weekDay.length; i ++) {
+			if(startDate[1].equals(weekDay[i])) {
+				weekCount = i;
+			}
+		}
+		
+		Arrays.sort(login_dates);
+		
+		String[] currentDate = startDate[0].split("/");
+		int currentMonth = Integer.parseInt(currentDate[0]);
+		int currentDay = Integer.parseInt(currentDate[1]);
+		
+		int loginDateCount = 0;
+		String[] loginDate = login_dates[loginDateCount].split("/");
+		int loginMonth = Integer.parseInt(loginDate[0]);
+		int logintDay = Integer.parseInt(loginDate[1]);
+		
+		String[] endDate = end_date.split("/");
+		int endMonth = Integer.parseInt(endDate[0]);
+		int endDay = Integer.parseInt(endDate[1]);
+		
+		int currentCount = 0;
+		while(true) {
+			if(currentMonth == loginMonth && currentDay == logintDay) {
+				if(weekCount%7 < 5) {
+					currentCount++;
+				}
+				loginDateCount++;
+				if(loginDateCount >= login_dates.length ) {
+					maxCount = GetMaxCount(maxCount, currentCount);
+					break;
+				}else {					
+					loginDate = login_dates[loginDateCount].split("/");
+					loginMonth = Integer.parseInt(loginDate[0]);
+					logintDay = Integer.parseInt(loginDate[1]);
+					
+				}
+			}else {
+				if(weekCount%7 < 5) {
+					maxCount = GetMaxCount(maxCount, currentCount);
+					currentCount = 0;
+				}
+			}
+			
+			if(currentMonth == endMonth && currentDay == endDay) {
+				maxCount = GetMaxCount(maxCount, currentCount);
+				break;
+			}else {				
+				currentDate = GetNextDay(currentMonth, currentDay, monthDay).split("/");
+				currentMonth = Integer.parseInt(currentDate[0]);
+				currentDay = Integer.parseInt(currentDate[1]);
+				weekCount++;
+			}
+			
+		}
+		
+		return maxCount;
 	}
 	
+	public static String GetNextDay(int currentMonth, int currentDay, int[] monthDay) {
+		if(currentDay==monthDay[currentMonth-1]) {
+			currentMonth ++;
+			currentDay = 1;
+		}else {
+			currentDay++;
+		}
+		return Integer.toString(currentMonth) + "/" + Integer.toString(currentDay);
+	}
+	
+	public static int GetMaxCount(int maxCount, int currentCount) {
+		if(maxCount < currentCount) {
+			return currentCount;
+		}else {
+			return maxCount;
+		}
+	}
 }
