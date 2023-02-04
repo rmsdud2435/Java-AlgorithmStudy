@@ -48,6 +48,7 @@ import java.util.*;
 public class 짝지어_제거 {
 	
 	public static void main(String[] args) {
+		
 		//String s = "1011";	
 		//String s = "0110011";	
 		//String s = "000111";			
