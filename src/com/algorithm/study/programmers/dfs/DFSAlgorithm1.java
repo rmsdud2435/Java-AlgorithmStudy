@@ -33,6 +33,8 @@ package com.algorithm.study.programmers.dfs;
  * +4-1+2-1 = 4
  * 총 2가지 방법이 있으므로, 2를 return 합니다.
  *
+ *
+ * 출처: 프로그래머스 - https://school.programmers.co.kr/learn/courses/30/lessons/43165
  */
 
 public class DFSAlgorithm1 {
@@ -65,5 +67,23 @@ public class DFSAlgorithm1 {
 		System.out.println( obj.solution(numbers, target));
 		int[] numbers2 = {1,3,2,4,2}; int target2 = 4;
 		System.out.println( obj.solution(numbers2, target2));
-	}// main
-}// end
+	}
+    
+    
+    //Best Answer
+    public int solution2(int[] numbers, int target) {
+        int answer = 0;
+        answer = dfs(numbers, 0, 0, target);
+        return answer;
+    }
+    int dfs(int[] numbers, int n, int sum, int target) {
+        if(n == numbers.length) {
+            if(sum == target) {
+                return 1;
+            }
+            return 0;
+        }
+        return dfs(numbers, n + 1, sum + numbers[n], target) + dfs(numbers, n + 1, sum - numbers[n], target);
+    }
+    
+}
