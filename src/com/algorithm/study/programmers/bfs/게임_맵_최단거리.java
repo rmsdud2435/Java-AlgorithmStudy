@@ -43,57 +43,7 @@ package com.algorithm.study.programmers.bfs;
  * 출처: 프로그래머스 - https://school.programmers.co.kr/learn/courses/30/lessons/43165
  */
 
-public class DFSAlgorithm1 {
-    public int solution(int[] numbers, int target) {
-    	int answer = 0;
-        answer = getSum(numbers,target, 0, 0);
-        return answer;
-    }// solution
-    
-    public int getSum(int[] numbers, int target, int sum, int order){  
-        if(order == numbers.length){
-            if(sum==target){
-                return 1;
-            }else{
-                return 0;
-            }
-        }else{
-            int leftResult = sum - numbers[order]; 
-            int rightResult = sum + numbers[order];
-            return getSum(numbers, target, rightResult, order+1) + getSum(numbers, target, leftResult, order+1);
-        }
-    }
-    
-    public static void main(String[] args) {
-    	// numbers			target	return
-    	// [1, 1, 1, 1, 1]	3		5
-    	// [4, 1, 2, 1]		4		2
-		DFSAlgorithm1 obj = new DFSAlgorithm1();
-		int[] numbers = {1,2,3,4,5}; int target = 3;
-		System.out.println( obj.solution(numbers, target));
-		int[] numbers2 = {1,3,2,4,2}; int target2 = 4;
-		System.out.println( obj.solution(numbers2, target2));
-	}
-    
-    
-    //Best Answer
-    public int solution2(int[] numbers, int target) {
-        int answer = 0;
-        answer = dfs(numbers, 0, 0, target);
-        return answer;
-    }
-    int dfs(int[] numbers, int n, int sum, int target) {
-        if(n == numbers.length) {
-            if(sum == target) {
-                return 1;
-            }
-            return 0;
-        }
-        return dfs(numbers, n + 1, sum + numbers[n], target) + dfs(numbers, n + 1, sum - numbers[n], target);
-    }
-
-
-    import java.util.*;
+mport java.util.*;
 
 class Solution {
     private boolean[][] visitCheckArr;
@@ -117,14 +67,18 @@ class Solution {
                 currentMap[i][j] = maps[i][j];
             }
         }
-
-        answer = bfs(0, 0);
+        if(bfs(0, 0)){
+            answer =  currentMap[sourceY-1][sourceX-1];
+        }else{
+            answer = -1;
+        }
+        
         return answer;
     }
     
-    public int bfs(int x, int y){
+    public boolean bfs(int x, int y){
         Queue<int[]> queue = new LinkedList<int[]>();
-        int[] startNode = {0,0,1};
+        int[] startNode = {x,y,1};
         queue.add(startNode);
         while(!queue.isEmpty()){
             int[] currentNode = queue.poll();
@@ -134,6 +88,7 @@ class Solution {
             int currentDepth = currentNode[2];
             
             visitCheckArr[currentY][currentX] = true;
+            currentMap[currentY][currentX] = currentDepth;
             
             int[] upXY = {currentX, currentY-1,currentDepth+1};
             int[] downXY = {currentX, currentY+1, currentDepth+1};
@@ -148,16 +103,83 @@ class Solution {
                 }else if(visitCheckArr[nextNode[1]][nextNode[0]] ||
                          currentMap[nextNode[1]][nextNode[0]] == 0){ 
                     continue;
-                }else if(currentMap[nextNode[1]][nextNode[0]] > nextNode[3] && currentMap[nextNode[1]][nextNode[0]] != 1 ){
-                    currentMap[nextNode[1]][nextNode[0]] = nextNode[3];
+                }else if(currentMap[nextNode[1]][nextNode[0]] >= nextNode[2] || currentMap[nextNode[1]][nextNode[0]] == 1 ){
+                    currentMap[nextNode[1]][nextNode[0]] = nextNode[2];
                     queue.add(nextNode);
                 }
             }
         }
-        return 0;
+        return visitCheckArr[sourceY-1][sourceX-1];
     }
     
     
 }
+/*
+class Solution {
+    public int leastVal = -1;
+    public int[][] originalMaps;
     
+    public int solution(int[][] maps) {
+        int answer = 0;
+        originalMaps = maps;
+        answer = dfs(maps, 0, 0, 1);
+        return answer;
+    }
+    
+    public int dfs(int[][] maps, int x, int y, int moveCount){
+        if(y == maps.length-1 && x == maps[y].length-1){
+            return moveCount;
+        }else if(y >= maps.length || y<0 || x >= maps[y].length || x<0){
+            return -1;
+        }else if(maps[y][x]==0){
+            return -1;
+        }else if(leastVal != -1 && moveCount >= leastVal){
+            return -1;
+        }else{
+            if(originalMaps[y][x] != 1 && originalMaps[y][x] < moveCount ){
+                System.out.println("position x: " + x + ", y: " + y + " and moveCount is " + moveCount);
+                System.out.println("originalMaps[y][x] - " + originalMaps[y][x]);
+                System.out.println("It will return -1");
+                return -1;
+            }else{
+                System.out.println("position x: " + x + ", y: " + y + " and moveCount is " + moveCount);
+                System.out.println("originalMaps[y][x] - " + originalMaps[y][x]);
+                originalMaps[y][x] = moveCount;
+                System.out.println("after originalMaps[y][x] - " + originalMaps[y][x]);
+            }
+            
+            int[][] newMaps1 = new int[maps.length][maps[0].length];
+            int[][] newMaps2 = new int[maps.length][maps[0].length];
+            int[][] newMaps3 = new int[maps.length][maps[0].length];
+            int[][] newMaps4 = new int[maps.length][maps[0].length];
+            
+            for(int i = 0; i < maps.length; i++){
+                for(int j = 0; j < maps[0].length; j++){
+                    newMaps1[i][j] = maps[i][j];
+                    newMaps2[i][j] = maps[i][j];
+                    newMaps3[i][j] = maps[i][j];
+                    newMaps4[i][j] = maps[i][j];
+                }
+            }
+            
+            newMaps1[y][x]=0;
+            newMaps2[y][x]=0;
+            newMaps3[y][x]=0;
+            newMaps4[y][x]=0;
+            int right = dfs(newMaps1,x+1,y,moveCount+1);
+            int left = dfs(newMaps2,x-1,y,moveCount+1);
+            int down = dfs(newMaps3,x,y+1,moveCount+1);
+            int up = dfs(newMaps4,x,y-1,moveCount+1);
+            
+            int[] a = {right,left,down,up};
+            for(int i = 0; i < a.length; i++){
+                if(a[i] != -1 && (a[i] < leastVal || leastVal == -1)){ 
+                    leastVal = a[i]; 
+                }
+            }
+                
+            return leastVal;
+        }
+    }
 }
+*/
