@@ -43,22 +43,232 @@ package com.algorithm.study.programmers.bfs;
  * 출처: 프로그래머스 - https://school.programmers.co.kr/learn/courses/30/lessons/43165
  */
 
-mport java.util.*;
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+import java.util.*;
 
 class Solution {
     private boolean[][] visitCheckArr;
     private int[][] currentMap;
-    
+
     private int sourceX;
     private int sourceY;
     private int currentMove=1;
-        
+
     public int solution(int[][] maps) {
         int answer = 0;
-    
+
         sourceX = maps[0].length;
         sourceY = maps.length;
-        
+
         visitCheckArr = new boolean[sourceY][sourceX];
         currentMap = new int[sourceY][sourceX];
         for(int i = 0; i < sourceY; i++){
@@ -72,29 +282,29 @@ class Solution {
         }else{
             answer = -1;
         }
-        
+
         return answer;
     }
-    
+
     public boolean bfs(int x, int y){
         Queue<int[]> queue = new LinkedList<int[]>();
         int[] startNode = {x,y,1};
         queue.add(startNode);
         while(!queue.isEmpty()){
             int[] currentNode = queue.poll();
-            
+
             int currentX = currentNode[0];
             int currentY = currentNode[1];
             int currentDepth = currentNode[2];
-            
+
             visitCheckArr[currentY][currentX] = true;
             currentMap[currentY][currentX] = currentDepth;
-            
+
             int[] upXY = {currentX, currentY-1,currentDepth+1};
             int[] downXY = {currentX, currentY+1, currentDepth+1};
             int[] rightXY = {currentX+1, currentY,currentDepth+1};
             int[] leftXY = {currentX-1, currentY, currentDepth+1};
-            
+
             int[][] nextNodeArr = {upXY, downXY, rightXY, leftXY};
             for(int[] nextNode : nextNodeArr){
                 if(nextNode[0] >= sourceX || nextNode[0] < 0 
@@ -103,7 +313,7 @@ class Solution {
                 }else if(visitCheckArr[nextNode[1]][nextNode[0]] ||
                          currentMap[nextNode[1]][nextNode[0]] == 0){ 
                     continue;
-                }else if(currentMap[nextNode[1]][nextNode[0]] >= nextNode[2] || currentMap[nextNode[1]][nextNode[0]] == 1 ){
+                }else if(currentMap[nextNode[1]][nextNode[0]] > nextNode[2] || currentMap[nextNode[1]][nextNode[0]] == 1 ){
                     currentMap[nextNode[1]][nextNode[0]] = nextNode[2];
                     queue.add(nextNode);
                 }
@@ -111,8 +321,8 @@ class Solution {
         }
         return visitCheckArr[sourceY-1][sourceX-1];
     }
-    
-    
+
+
 }
 /*
 class Solution {
@@ -181,5 +391,61 @@ class Solution {
             return leastVal;
         }
     }
+}
+*/
+//모범답안
+/*
+
+lass Solution {
+    public static int solution(int[][] maps) {
+        int X = maps[0].length;
+        int Y = maps.length;
+        boolean[][] visited = new boolean[Y][X];
+        Queue<Point> q = new LinkedList<Point>();
+        int x = 0;
+        int y = 0;
+        int size = 0;
+        int cnt = 0;
+        Point p = new Point();
+        q.add(new Point(Y-1,X-1));
+        while(q.isEmpty()==false) {
+            size = q.size();
+            cnt++;
+            for(int i=0;i<size;i++)
+            {
+                p = q.peek();
+                x = p.y;
+                y = p.x;
+                q.remove();
+                if(visited[y][x]==true)
+                    continue;
+                maps[y][x] = 0;
+                visited[y][x] = true;
+                if(x==0 && y==0) {
+                    return cnt;
+                }
+                if(x-1>-1 && maps[y][x-1]==1) { //왼쪽 한칸
+                    q.add(new Point(y,x-1));
+                }
+                if(x+1<X && maps[y][x+1]==1) { //오른쪽 한칸
+                    q.add(new Point(y,x+1));
+                }
+                if(y-1>-1 && maps[y-1][x]==1) { //위쪽 한칸
+                    q.add(new Point(y-1,x));
+                }
+                if(y+1<Y && maps[y+1][x]==1) { //아래쪽 한칸
+                    q.add(new Point(y+1,x));
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int arr[][] = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,0},{0,0,0,0,1}};
+
+        System.out.println(solution(arr));
+    }
+
 }
 */
