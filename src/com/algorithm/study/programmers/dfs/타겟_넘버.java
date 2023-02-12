@@ -37,7 +37,7 @@ package com.algorithm.study.programmers.dfs;
  * 출처: 프로그래머스 - https://school.programmers.co.kr/learn/courses/30/lessons/43165
  */
 
-public class DFSAlgorithm1 {
+public class 타겟_넘버 {
     public int solution(int[] numbers, int target) {
     	int answer = 0;
         answer = getSum(numbers,target, 0, 0);
@@ -62,7 +62,7 @@ public class DFSAlgorithm1 {
     	// numbers			target	return
     	// [1, 1, 1, 1, 1]	3		5
     	// [4, 1, 2, 1]		4		2
-		DFSAlgorithm1 obj = new DFSAlgorithm1();
+		타겟_넘버 obj = new 타겟_넘버();
 		int[] numbers = {1,2,3,4,5}; int target = 3;
 		System.out.println( obj.solution(numbers, target));
 		int[] numbers2 = {1,3,2,4,2}; int target2 = 4;
