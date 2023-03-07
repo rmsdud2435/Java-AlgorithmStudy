@@ -87,3 +87,42 @@ public class 타겟_넘버 {
     }
     
 }
+/*
+class Solution {
+    private int[] checkUsed;
+    
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        init(n);
+        for(int i = 0; i < n; i++){
+            if(checkUsed[i] == 1){
+                dfs(computers,i, n);
+                answer++;
+            }
+        } 
+        
+        return answer;
+    }
+    
+    private void init(int n){
+        checkUsed = new int[n];
+        for(int i = 0; i < n; i++){
+            checkUsed[i] = 1;
+        }
+    }
+    
+    private void dfs(int[][] computers, int m, int n){
+        checkUsed[m] = 0;
+        int[] computerNode = computers[m];
+        for(int i = 0; i < n; i++){
+            if(computerNode[i] == 1){
+                if(checkUsed[i] == 1){
+                    dfs(computers, i, n);
+                }
+            }
+        }
+
+        return;
+    }
+}
+*/
