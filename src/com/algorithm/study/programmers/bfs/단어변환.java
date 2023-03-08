@@ -279,6 +279,7 @@ class Solution {
         while(queue.isEmpty()){
             String currentWord = queue.poll();
             answer++;
+            usedWords.add(currentWord);
             for(String word: words){
                 if(word.equals(target)){
                     return answer;
@@ -298,17 +299,53 @@ class Solution {
                             break;
                         }
                     }
-                    if(){
 
+                    if(checkVal){
+                        queue.add(word);
                     }
 
                 }
-                usedWords.add(word)
             }
         }
-
-        }
-        
         return 0;
+    }
+
+
+    private int dfs(String begin, String target, String[] words, int count, ArrayList<String> usedWords){
+        int currentCnt = count + 1;
+        ArrayList<String> currentUsedWords = new ArrayList<String>();
+        for(String usedWord : usedWords){
+            currentUsedWords.add(usedWord);
+        }
+
+        for(String word: words){
+                if(word.equals(target)){
+                    return currentCnt;
+                }else if(!usedWords.contains(word)){
+                    char[] charArray1 = currentWord.toCharArray();
+                    char[] charArray2 = word.toCharArray();
+                    int checkCnt = 0;
+                    boolean checkVal = true;
+                    for(int i = 0; i < charArray2.length; i++){
+                        if(charArray1.length != charArray2.length){
+                            checkVal = false;
+                            break;
+                        }else if( charArray1[i] != charArray2[i] && check == 0){
+                            check++;
+                        }else if(charArray1[i] != charArray2[i] && check == 1){
+                            checkVal = false;
+                            break;
+                        }
+                    }
+
+                    if(checkVal){
+                        dfs(word, words, currentCnt, currentUsedWords);
+                    }else{
+                        return 0;
+                    }
+
+                }
+            }
+
     }
 }
