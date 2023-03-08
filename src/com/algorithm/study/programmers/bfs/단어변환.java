@@ -248,3 +248,67 @@ public class 게임_맵_최단거리 {
         return -1;
     }
 }
+
+
+
+
+class Solution {
+    
+    private ArrayList<String> usedWords = new ArrayList<String>();
+    
+    public int solution(String begin, String target, String[] words) {
+        int answer = 0;
+        
+        //init(words.length);
+        
+        bfs(begin, target, words);
+        return answer;
+    }
+    /*
+    private void init(int length){
+        usedWords = new boolean[length];
+        for(int i = 0; i < length ; i++){
+            usedWords[i] = false;
+        }
+    }
+    */
+    private int bfs(String begin, String target, String[] words){
+        Queue<String> queue = new LinkedList<String>();
+        int answer = 0;
+        queue.add(begin);
+        while(queue.isEmpty()){
+            String currentWord = queue.poll();
+            answer++;
+            for(String word: words){
+                if(word.equals(target)){
+                    return answer;
+                }else if(!usedWords.contains(word)){
+                    char[] charArray1 = currentWord.toCharArray();
+                    char[] charArray2 = word.toCharArray();
+                    int checkCnt = 0;
+                    boolean checkVal = true;
+                    for(int i = 0; i < charArray2.length; i++){
+                        if(charArray1.length != charArray2.length){
+                            checkVal = false;
+                            break;
+                        }else if( charArray1[i] != charArray2[i] && check == 0){
+                            check++;
+                        }else if(charArray1[i] != charArray2[i] && check == 1){
+                            checkVal = false;
+                            break;
+                        }
+                    }
+                    if(){
+
+                    }
+
+                }
+                usedWords.add(word)
+            }
+        }
+
+        }
+        
+        return 0;
+    }
+}
