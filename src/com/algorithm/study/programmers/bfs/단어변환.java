@@ -60,230 +60,49 @@ import java.awt.Point;
 
 import java.util.*;
 
-public class 게임_맵_최단거리 {
+public class 단어변환 {
 	
     public static void main(String[] args) {
     	// numbers			target	return
     	// [1, 1, 1, 1, 1]	3		5
     	// [4, 1, 2, 1]		4		2
-    	게임_맵_최단거리 obj = new 게임_맵_최단거리();
+    	단어변환 obj = new 단어변환();
 		int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
-		System.out.println( obj.solution(maps));
-		int[][] maps2 = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,0},{0,0,0,0,1}};
-		System.out.println( obj.solution(maps2));
+        String begin1 = "hit";
+        String target1 = "cog";
+        String[] words1 = {"hot","dot","dog","log","lot","cog"};
+		System.out.println( obj.solution(begin1, target1, words1));
+		//int[][] maps2 = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,0},{0,0,0,0,1}};
+		//System.out.println( obj.solution(maps2));
 	}
-    
-    private boolean[][] visitCheckArr;
-    private int[][] currentMap;
 
-    private int sourceX;
-    private int sourceY;
+    private HashMap<String, int> wordCntMap = new HashMap<String, int>();
 
-    /* 오답에 사용한 전역변수 */
-    private int leastVal = -1;
-    private int[][] originalMaps;
-    
-    /* 최종 답변 */
-    public int solution(int[][] maps) {
-        int answer = 0;
-
-        //XY의 최대 좌표
-        sourceX = maps[0].length;
-        sourceY = maps.length;
-
-        //방문여부 저장하는 배열
-        visitCheckArr = new boolean[sourceY][sourceX];
-        currentMap = new int[sourceY][sourceX];
-        for(int i = 0; i < sourceY; i++){
-            for(int j = 0; j < sourceX; j++){
-                visitCheckArr[i][j] = false;
-                currentMap[i][j] = maps[i][j];
-            }
-        }
-        
-        if(bfs(0, 0)){
-            answer =  currentMap[sourceY-1][sourceX-1];
-        }else{
-            answer = -1;
-        }
-
-        return answer;
-    }
-
-    public boolean bfs(int x, int y){
-        Queue<int[]> queue = new LinkedList<int[]>();
-        int[] startNode = {x,y,1};
-        queue.add(startNode);
-        while(!queue.isEmpty()){
-            int[] currentNode = queue.poll();
-
-            int currentX = currentNode[0];
-            int currentY = currentNode[1];
-            int currentDepth = currentNode[2];
-
-            visitCheckArr[currentY][currentX] = true;
-            currentMap[currentY][currentX] = currentDepth;
-
-            int[] upXY = {currentX, currentY-1,currentDepth+1};
-            int[] downXY = {currentX, currentY+1, currentDepth+1};
-            int[] rightXY = {currentX+1, currentY,currentDepth+1};
-            int[] leftXY = {currentX-1, currentY, currentDepth+1};
-
-            int[][] nextNodeArr = {upXY, downXY, rightXY, leftXY};
-            for(int[] nextNode : nextNodeArr){
-                if(nextNode[0] >= sourceX || nextNode[0] < 0 
-                  || nextNode[1] >= sourceY || nextNode[1] < 0){
-                    continue;
-                }else if(visitCheckArr[nextNode[1]][nextNode[0]] ||
-                         currentMap[nextNode[1]][nextNode[0]] == 0){ 
-                    continue;
-                }else if(currentMap[nextNode[1]][nextNode[0]] > nextNode[2] || currentMap[nextNode[1]][nextNode[0]] == 1 ){
-                    currentMap[nextNode[1]][nextNode[0]] = nextNode[2];
-                    queue.add(nextNode);
-                }
-            }
-        }
-        return visitCheckArr[sourceY-1][sourceX-1];
-    }
-
-    /* dfs로 풀어서 답은 맞았지만 효율성에서 틀린 답안*/
-    public int dfs(int[][] maps, int x, int y, int moveCount){
-        if(y == maps.length-1 && x == maps[y].length-1){
-            return moveCount;
-        }else if(y >= maps.length || y<0 || x >= maps[y].length || x<0){
-            return -1;
-        }else if(maps[y][x]==0){
-            return -1;
-        }else if(leastVal != -1 && moveCount >= leastVal){
-            return -1;
-        }else{
-            if(originalMaps[y][x] != 1 && originalMaps[y][x] < moveCount ){
-                System.out.println("position x: " + x + ", y: " + y + " and moveCount is " + moveCount);
-                System.out.println("originalMaps[y][x] - " + originalMaps[y][x]);
-                System.out.println("It will return -1");
-                return -1;
-            }else{
-                System.out.println("position x: " + x + ", y: " + y + " and moveCount is " + moveCount);
-                System.out.println("originalMaps[y][x] - " + originalMaps[y][x]);
-                originalMaps[y][x] = moveCount;
-                System.out.println("after originalMaps[y][x] - " + originalMaps[y][x]);
-            }
-            
-            int[][] newMaps1 = new int[maps.length][maps[0].length];
-            int[][] newMaps2 = new int[maps.length][maps[0].length];
-            int[][] newMaps3 = new int[maps.length][maps[0].length];
-            int[][] newMaps4 = new int[maps.length][maps[0].length];
-            
-            for(int i = 0; i < maps.length; i++){
-                for(int j = 0; j < maps[0].length; j++){
-                    newMaps1[i][j] = maps[i][j];
-                    newMaps2[i][j] = maps[i][j];
-                    newMaps3[i][j] = maps[i][j];
-                    newMaps4[i][j] = maps[i][j];
-                }
-            }
-            
-            newMaps1[y][x]=0;
-            newMaps2[y][x]=0;
-            newMaps3[y][x]=0;
-            newMaps4[y][x]=0;
-            int right = dfs(newMaps1,x+1,y,moveCount+1);
-            int left = dfs(newMaps2,x-1,y,moveCount+1);
-            int down = dfs(newMaps3,x,y+1,moveCount+1);
-            int up = dfs(newMaps4,x,y-1,moveCount+1);
-            
-            int[] a = {right,left,down,up};
-            for(int i = 0; i < a.length; i++){
-                if(a[i] != -1 && (a[i] < leastVal || leastVal == -1)){ 
-                    leastVal = a[i]; 
-                }
-            }
-                
-            return leastVal;
-        }
-    }
-    
-    /* 모범답안 */
-    public static int answer(int[][] maps) {
-        int X = maps[0].length;
-        int Y = maps.length;
-        boolean[][] visited = new boolean[Y][X];
-        Queue<Point> q = new LinkedList<Point>();
-        int x = 0;
-        int y = 0;
-        int size = 0;
-        int cnt = 0;
-        Point p = new Point();
-        q.add(new Point(Y-1,X-1));
-        while(q.isEmpty()==false) {
-            size = q.size();
-            cnt++;
-            for(int i=0;i<size;i++)
-            {
-                p = q.peek();
-                x = p.y;
-                y = p.x;
-                q.remove();
-                if(visited[y][x]==true)
-                    continue;
-                maps[y][x] = 0;
-                visited[y][x] = true;
-                if(x==0 && y==0) {
-                    return cnt;
-                }
-                if(x-1>-1 && maps[y][x-1]==1) { //왼쪽 한칸
-                    q.add(new Point(y,x-1));
-                }
-                if(x+1<X && maps[y][x+1]==1) { //오른쪽 한칸
-                    q.add(new Point(y,x+1));
-                }
-                if(y-1>-1 && maps[y-1][x]==1) { //위쪽 한칸
-                    q.add(new Point(y-1,x));
-                }
-                if(y+1<Y && maps[y+1][x]==1) { //아래쪽 한칸
-                    q.add(new Point(y+1,x));
-                }
-            }
-        }
-        return -1;
-    }
-}
-
-
-
-
-class Solution {
-    
-    private ArrayList<String> usedWords = new ArrayList<String>();
-    
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
         
-        //init(words.length);
+        init(words);
         
         bfs(begin, target, words);
         return answer;
     }
-    /*
-    private void init(int length){
-        usedWords = new boolean[length];
-        for(int i = 0; i < length ; i++){
-            usedWords[i] = false;
+
+    private void init(String[] words){
+        for(String word : words){
+            wordCntMap.put(word,0);
         }
     }
-    */
     private int bfs(String begin, String target, String[] words){
         Queue<String> queue = new LinkedList<String>();
-        int answer = 0;
+
         queue.add(begin);
         while(queue.isEmpty()){
             String currentWord = queue.poll();
-            answer++;
-            usedWords.add(currentWord);
-            for(String word: words){
+            int currentCnt = wordCntMap.get(currentWord)+1;
+            for(String word : words){
                 if(word.equals(target)){
-                    return answer;
-                }else if(!usedWords.contains(word)){
+                    return currentCnt;
+                }else if( wordCntMap.get(word) == 0 || currentCnt < wordCntMap.get(word)  ){
                     char[] charArray1 = currentWord.toCharArray();
                     char[] charArray2 = word.toCharArray();
                     int checkCnt = 0;
@@ -301,15 +120,18 @@ class Solution {
                     }
 
                     if(checkVal){
+                        wordCntMap.put(word, currentCnt);
                         queue.add(word);
                     }
-
                 }
             }
         }
         return 0;
     }
+}
 
+
+/*
 
     private int dfs(String begin, String target, String[] words, int count, ArrayList<String> usedWords){
         int currentCnt = count + 1;
@@ -349,3 +171,58 @@ class Solution {
 
     }
 }
+
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+    
+    private ArrayList<String> usedWords = new ArrayList<String>();
+    
+    public int solution(String begin, String target, String[] words) {
+        int answer = 0;
+        
+        return dfs(begin, target, words,0, new ArrayList<String>());
+    }
+    
+    private int dfs(String source, String target, String[] words, int count, ArrayList<String> usedWords){
+        int currentCnt = count + 1;
+        ArrayList<String> currentUsedWords = new ArrayList<String>();
+        for(String usedWord : usedWords){
+            currentUsedWords.add(usedWord);
+        }
+
+        for(String word: words){
+            if(word.equals(target)){
+                return currentCnt;
+            }else if(!currentUsedWords.contains(word)){
+                char[] charArray1 = source.toCharArray();
+                char[] charArray2 = word.toCharArray();
+                int checkCnt = 0;
+                boolean checkVal = true;
+                for(int i = 0; i < charArray2.length; i++){
+                    if(charArray1.length != charArray2.length){
+                        checkVal = false;
+                        break;
+                    }else if( charArray1[i] != charArray2[i] && checkCnt == 0){
+                        checkCnt++;
+                    }else if(charArray1[i] != charArray2[i] && checkCnt == 1){
+                        checkVal = false;
+                        break;
+                    }
+                }
+
+                if(checkVal){
+                    currentUsedWords.add(word);
+                    return dfs(word, target, words, currentCnt, currentUsedWords);
+                }
+            }
+        }
+        return 0;
+    }
+}
+*/
