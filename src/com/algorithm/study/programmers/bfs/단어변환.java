@@ -225,4 +225,75 @@ class Solution {
         return 0;
     }
 }
+
+------------------------------------answer----------------------------------
+import java.util.*;
+
+class Solution {
+    
+    private HashMap<String, Integer> wordCntMap = new HashMap<String, Integer>();
+    
+    public int solution(String begin, String target, String[] words) {
+        init(words);
+        return bfs(begin, target, words);
+    }
+    
+    private void init(String[] words){
+        for(String word : words){
+            wordCntMap.put(word,0);
+        }
+    }
+    
+    private int bfs(String begin, String target, String[] words){
+        Queue<String> queue = new LinkedList<String>();
+
+        queue.add(begin);
+        while(!queue.isEmpty()){
+            String currentWord = queue.poll();
+            int currentCnt = wordCntMap.getOrDefault(currentWord, 0);
+            currentCnt++;
+            for(String word : words){
+                if(wordCntMap.get(word) == 0 || currentCnt < wordCntMap.get(word)){
+                    boolean moveFlag = checkValdion(currentWord, word);
+                    if(moveFlag){
+                        if(word.equals(target)){
+                            return currentCnt;
+                        }else{
+                            wordCntMap.put(word, currentCnt);
+                            queue.add(word);
+                        }
+                    }  
+                }
+            }
+        }
+        return 0;
+    }
+    
+    private boolean checkValdion(String prevWord, String afterWord){
+        char[] charArray1 = prevWord.toCharArray();
+        char[] charArray2 = afterWord.toCharArray();
+        
+        int checkCnt = 0;
+        boolean checkVal = true;
+        for(int i = 0; i < charArray2.length; i++){
+            if(charArray1.length != charArray2.length){
+                return false;
+            }else if( charArray1[i] != charArray2[i] && checkCnt == 0){
+                checkCnt++;
+            }else if(charArray1[i] != charArray2[i] && checkCnt == 1){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+}
+
+
+
+
+
+
+
 */
