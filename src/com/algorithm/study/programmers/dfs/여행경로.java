@@ -109,3 +109,61 @@ class Solution {
         
     }
 }
+
+
+//문자열 비교하기도 정리 compareTo
+/*
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[][] tickets) {
+        String[] answer = {};
+        return answer;
+    }
+    
+    private ArrayList<String> dfs(String[][] leftTickets, ArrayList<String> route){
+        if(leftTickets.length == 0){
+            return route;
+        }
+        
+        String destination = route.get(route.size()-1);
+        String nextDestination = "";
+        int position = 0;
+        
+        for(int i = 0; i < leftTickets.length; i++){
+            String[] leftTicket = leftTickets[i];
+            if(leftTicket[0].equals(destination)){
+                if(nextDestination == "" || nextDestination.compareTo(leftTicket[1]) < 0 ){
+                    nextDestination = leftTicket[1];
+                    position = i;
+                }
+            }
+        }
+        
+        if(nextDestination == ""){
+            return new ArrayList<String>();
+        }else{
+            ArrayList<String> newRoute = new ArrayList<String>();
+            String[][] newLeftTickets = new String[leftTickets.length-1][2];
+            for(String node : route){
+                newRoute.add(node);
+            }
+            newRoute.add(nextDestination);
+            
+            boolean flag = false;
+            for(int j = 0; j < leftTickets.length; j ++ ){
+                if(position == j){
+                    flag = true;
+                }else if(!flag){
+                    newLeftTickets[j] = leftTickets[j];
+                }else{
+                    newLeftTickets[j-1] = leftTickets[j];
+                }
+           }
+            return dfs(newLeftTickets, newRoute);
+        }
+        
+    }
+    
+}
+*/
