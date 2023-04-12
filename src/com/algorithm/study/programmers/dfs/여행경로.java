@@ -176,7 +176,7 @@ class Solution {
         String[] answer = new String[tickets.length + 1];
         ArrayList<String> route = new ArrayList<String>();
         route = dfs(tickets, route, "ICN");
-        for(int i = 0; i < answer.length; i++){
+        for(int i = 0; i < route.size(); i++){
             answer[i] = route.get(i);
         }
         return answer;
@@ -201,7 +201,7 @@ class Solution {
         }
         
         if(destination == ""){
-            return new ArrayList<String>();
+            return route;
         }else{
             ArrayList<String> newRoute = new ArrayList<String>();
             String[][] newLeftTickets = new String[leftTickets.length-1][2];
