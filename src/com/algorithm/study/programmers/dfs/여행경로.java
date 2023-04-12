@@ -167,3 +167,66 @@ class Solution {
     
 }
 */
+
+/*
+
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[][] tickets) {
+        String[] answer = new String[tickets.length + 1];
+        ArrayList<String> route = new ArrayList<String>();
+        route = dfs(tickets, route, "ICH");
+        for(int i = 1; i < answer.length; i++){
+            answer[i] = route.get(i);
+        }
+        
+        return answer;
+    }
+    
+    private ArrayList<String> dfs(String[][] leftTickets, ArrayList<String> route, String startNode){
+        if(leftTickets.length == 0){
+            return route;
+        }
+        
+        String destination = "";
+        int position = 0;
+        
+        for(int i = 0; i < leftTickets.length; i++){
+            String[] leftTicket = leftTickets[i];
+            if(leftTicket[0].equals(startNode)){
+                if(destination == "" || destination.compareTo(leftTicket[1]) < 0 ){
+                    destination = leftTicket[1];
+                    position = i;
+                }
+            }
+        }
+        
+        if(destination == ""){
+            return new ArrayList<String>();
+        }else{
+            ArrayList<String> newRoute = new ArrayList<String>();
+            String[][] newLeftTickets = new String[leftTickets.length-1][2];
+            for(String node : route){
+                newRoute.add(node);
+            }
+            newRoute.add(destination);
+            
+            boolean flag = false;
+            for(int j = 0; j < leftTickets.length; j ++ ){
+                if(position == j){
+                    flag = true;
+                }else if(!flag){
+                    newLeftTickets[j] = leftTickets[j];
+                }else{
+                    newLeftTickets[j-1] = leftTickets[j];
+                }
+           }
+            return dfs(newLeftTickets, newRoute, destination);
+        }
+        
+    }
+    
+}
+
+*/
