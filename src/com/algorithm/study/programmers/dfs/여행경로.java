@@ -169,18 +169,16 @@ class Solution {
 */
 
 /*
-
 import java.util.*;
 
 class Solution {
     public String[] solution(String[][] tickets) {
         String[] answer = new String[tickets.length + 1];
         ArrayList<String> route = new ArrayList<String>();
-        route = dfs(tickets, route, "ICH");
-        for(int i = 1; i < answer.length; i++){
+        route = dfs(tickets, route, "ICN");
+        for(int i = 0; i < answer.length; i++){
             answer[i] = route.get(i);
         }
-        
         return answer;
     }
     
@@ -195,7 +193,7 @@ class Solution {
         for(int i = 0; i < leftTickets.length; i++){
             String[] leftTicket = leftTickets[i];
             if(leftTicket[0].equals(startNode)){
-                if(destination == "" || destination.compareTo(leftTicket[1]) < 0 ){
+                if(destination == "" || destination.compareTo(leftTicket[1]) > 0 ){
                     destination = leftTicket[1];
                     position = i;
                 }
@@ -207,6 +205,9 @@ class Solution {
         }else{
             ArrayList<String> newRoute = new ArrayList<String>();
             String[][] newLeftTickets = new String[leftTickets.length-1][2];
+            if(route.size() == 0){
+                newRoute.add("ICN");
+            }
             for(String node : route){
                 newRoute.add(node);
             }
@@ -228,5 +229,4 @@ class Solution {
     }
     
 }
-
 */
