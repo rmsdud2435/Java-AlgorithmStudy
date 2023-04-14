@@ -230,3 +230,87 @@ class Solution {
     
 }
 */
+
+
+/*
+20230414
+
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[][] tickets) {
+        String[] answer = new String[tickets.length + 1];
+        
+        ArrayList<String> route = new ArrayList<String>();
+        ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
+        for(String[] ticket: tickets){
+            ArrayList<String> leftTicket = new ArrayList<String>();
+            leftTicket.add(ticket[0]);
+            leftTicket.add(ticket[1]);
+            leftTickets.add(leftTicket);
+        }
+        
+        route = dfs(leftTickets, route, "ICN");
+        for(int i = 0; i < route.size(); i++){
+            answer[i] = route.get(i);
+        }
+        return answer;
+    }
+    private ArrayList<String> makeCloneRoute(ArrayList<String> route, String desination){
+        ArrayList<String> tempRoute = new ArrayList<String>();
+        for(String node: route){
+            tempRoute.add(node);
+        }
+        tempRoute.add(desination);
+    }
+    
+    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
+        if(leftTickets.length() == 0){
+            return route;
+        }
+        
+        String destination = "";
+        int position = 0;
+        
+        for(int i = 0; i < leftTickets.length(); i++){
+            ArrayList<String> leftTicket = leftTickets.get(i);
+            if(leftTicket.get(0).equals(startNode)){
+                ArrayList<String> tempDestination = new ArrayList<String>();
+                ArrayList<String> tempRoute = new ArrayList<String>();
+                ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
+                tempRoute = makeCloneRoute(tempRoute, leftTicket.get(1));
+                tempLeftTickets=makeCloneTempLeftTickets()
+                tempDestination = dfs(,,leftTicket.get(1));
+            }
+        }
+        
+        if(destination == ""){
+            return route;
+        }else{
+            ArrayList<String> newRoute = new ArrayList<String>();
+            String[][] newLeftTickets = new String[leftTickets.length-1][2];
+            if(route.size() == 0){
+                newRoute.add("ICN");
+            }
+            for(String node : route){
+                newRoute.add(node);
+            }
+            newRoute.add(destination);
+            
+            boolean flag = false;
+            for(int j = 0; j < leftTickets.length; j ++ ){
+                if(position == j){
+                    flag = true;
+                }else if(!flag){
+                    newLeftTickets[j] = leftTickets[j];
+                }else{
+                    newLeftTickets[j-1] = leftTickets[j];
+                }
+           }
+            return dfs(newLeftTickets, newRoute, destination);
+        }
+        
+    }
+    
+}
+*/
