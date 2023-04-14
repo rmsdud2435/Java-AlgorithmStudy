@@ -238,8 +238,11 @@ class Solution {
 import java.util.*;
 
 class Solution {
+    private int answerLength;
+    
     public String[] solution(String[][] tickets) {
-        String[] answer = new String[tickets.length + 1];
+        answerLength = tickets.length + 1;
+        String[] answer = new String[answerLength];
         
         ArrayList<String> route = new ArrayList<String>();
         ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
@@ -251,6 +254,7 @@ class Solution {
         }
         
         route = dfs(leftTickets, route, "ICN");
+        System.out.println(route.size());
         for(int i = 0; i < route.size(); i++){
             answer[i] = route.get(i);
         }
@@ -267,7 +271,7 @@ class Solution {
     }
     
     private ArrayList<ArrayList<String>> makeCloneLeftTickets(ArrayList<ArrayList<String>> leftTickets,int position){
-        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<SArrayList<String>>();
+        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
         for(ArrayList<String> leftTicket : leftTickets){
             ArrayList<String> tempLeftTicket = new ArrayList<String>();
             tempLeftTicket.add(leftTicket.get(0));
@@ -279,54 +283,45 @@ class Solution {
         return tempLeftTickets;
         
     }
+    private boolean checkOrder(ArrayList<String> destination, ArrayList<String> tempDestination){
+        if(tempDestination.size() != answerLength){
+            return false;
+        }
+        if(destination.size() == 0){
+            return true;
+        }
+        for(int i = 0; i < destination.size(); i++){
+            if(destination.get(i).compareTo(tempDestination.get(i)) < 0){
+                return false;
+            }else if(destination.get(i).compareTo(tempDestination.get(i)) > 0){
+                return true;
+            }
+        }
+        return false;
+        
+    }
     
     private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
-        if(leftTickets.length() == 0){
+        if(leftTickets.size() == 0){
             return route;
         }
 
-        ArrayList<String> destination = new 
-        for(int i = 0; i < leftTickets.length(); i++){
+        ArrayList<String> destination = new ArrayList<String>();
+        for(int i = 0; i < leftTickets.size(); i++){
             ArrayList<String> leftTicket = leftTickets.get(i);
             if(leftTicket.get(0).equals(startNode)){
                 ArrayList<String> tempDestination = new ArrayList<String>();
                 ArrayList<String> tempRoute = new ArrayList<String>();
                 ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
                 tempRoute = makeCloneRoute(tempRoute, leftTicket.get(1));
-                tempLeftTickets=makeCloneLeftTickets(leftTickets, i)
+                tempLeftTickets = makeCloneLeftTickets(leftTickets, i);
                 tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
-                if(){
-                    
+                if(checkOrder(destination, tempDestination)){
+                    destination = tempDestination;
                 }
             }
         }
-        
-        if(destination == ""){
-            return route;
-        }else{
-            ArrayList<String> newRoute = new ArrayList<String>();
-            String[][] newLeftTickets = new String[leftTickets.length-1][2];
-            if(route.size() == 0){
-                newRoute.add("ICN");
-            }
-            for(String node : route){
-                newRoute.add(node);
-            }
-            newRoute.add(destination);
-            
-            boolean flag = false;
-            for(int j = 0; j < leftTickets.length; j ++ ){
-                if(position == j){
-                    flag = true;
-                }else if(!flag){
-                    newLeftTickets[j] = leftTickets[j];
-                }else{
-                    newLeftTickets[j-1] = leftTickets[j];
-                }
-           }
-            return dfs(newLeftTickets, newRoute, destination);
-        }
-        
+        return destination;
     }
     
 }
