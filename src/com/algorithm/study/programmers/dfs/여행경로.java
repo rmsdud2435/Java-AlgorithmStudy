@@ -262,16 +262,30 @@ class Solution {
             tempRoute.add(node);
         }
         tempRoute.add(desination);
+        
+        return tempRoute;
+    }
+    
+    private ArrayList<ArrayList<String>> makeCloneLeftTickets(ArrayList<ArrayList<String>> leftTickets,int position){
+        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<SArrayList<String>>();
+        for(ArrayList<String> leftTicket : leftTickets){
+            ArrayList<String> tempLeftTicket = new ArrayList<String>();
+            tempLeftTicket.add(leftTicket.get(0));
+            tempLeftTicket.add(leftTicket.get(1));
+            tempLeftTickets.add(tempLeftTicket);
+        }
+        tempLeftTickets.remove(position);
+        
+        return tempLeftTickets;
+        
     }
     
     private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
         if(leftTickets.length() == 0){
             return route;
         }
-        
-        String destination = "";
-        int position = 0;
-        
+
+        ArrayList<String> destination = new 
         for(int i = 0; i < leftTickets.length(); i++){
             ArrayList<String> leftTicket = leftTickets.get(i);
             if(leftTicket.get(0).equals(startNode)){
@@ -279,8 +293,11 @@ class Solution {
                 ArrayList<String> tempRoute = new ArrayList<String>();
                 ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
                 tempRoute = makeCloneRoute(tempRoute, leftTicket.get(1));
-                tempLeftTickets=makeCloneTempLeftTickets()
-                tempDestination = dfs(,,leftTicket.get(1));
+                tempLeftTickets=makeCloneLeftTickets(leftTickets, i)
+                tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
+                if(){
+                    
+                }
             }
         }
         
