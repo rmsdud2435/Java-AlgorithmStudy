@@ -326,3 +326,99 @@ class Solution {
     
 }
 */
+/*
+내 정답
+
+import java.util.*;
+
+class Solution {
+    private int answerLength;
+    
+    public String[] solution(String[][] tickets) {
+        answerLength = tickets.length + 1;
+        String[] answer = new String[answerLength];
+        
+        ArrayList<String> route = new ArrayList<String>();
+        ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
+        for(String[] ticket: tickets){
+            ArrayList<String> leftTicket = new ArrayList<String>();
+            leftTicket.add(ticket[0]);
+            leftTicket.add(ticket[1]);
+            leftTickets.add(leftTicket);
+        }
+        
+        route = dfs(leftTickets, route, "ICN");
+        for(int i = 0; i < route.size(); i++){
+            answer[i] = route.get(i);
+        }
+        return answer;
+    }
+    private ArrayList<String> makeCloneRoute(ArrayList<String> route, String desination){
+        ArrayList<String> tempRoute = new ArrayList<String>();
+        for(String node: route){
+            tempRoute.add(node);
+        }
+        tempRoute.add(desination);
+        
+        return tempRoute;
+    }
+    
+    private ArrayList<ArrayList<String>> makeCloneLeftTickets(ArrayList<ArrayList<String>> leftTickets,int position){
+        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
+        for(ArrayList<String> leftTicket : leftTickets){
+            ArrayList<String> tempLeftTicket = new ArrayList<String>();
+            tempLeftTicket.add(leftTicket.get(0));
+            tempLeftTicket.add(leftTicket.get(1));
+            tempLeftTickets.add(tempLeftTicket);
+        }
+        tempLeftTickets.remove(position);
+        
+        return tempLeftTickets;
+        
+    }
+    private boolean checkOrder(ArrayList<String> destination, ArrayList<String> tempDestination){
+        if(tempDestination.size() != answerLength){
+            return false;
+        }
+        if(destination.size() == 0){
+            return true;
+        }
+        for(int i = 0; i < destination.size(); i++){
+            if(destination.get(i).compareTo(tempDestination.get(i)) < 0){
+                return false;
+            }else if(destination.get(i).compareTo(tempDestination.get(i)) > 0){
+                return true;
+            }
+        }
+        return false;
+        
+    }
+    
+    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
+        if(leftTickets.size() == 0){
+            return route;
+        }
+        if(route.size() == 0){
+            route.add("ICN");
+        }
+
+        ArrayList<String> destination = new ArrayList<String>();
+        for(int i = 0; i < leftTickets.size(); i++){
+            ArrayList<String> leftTicket = leftTickets.get(i);
+            if(leftTicket.get(0).equals(startNode)){
+                ArrayList<String> tempDestination = new ArrayList<String>();
+                ArrayList<String> tempRoute = new ArrayList<String>();
+                ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
+                tempRoute = makeCloneRoute(route, leftTicket.get(1));
+                tempLeftTickets = makeCloneLeftTickets(leftTickets, i);
+                tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
+                if(checkOrder(destination, tempDestination)){
+                    destination = tempDestination;
+                }
+            }
+        }
+        return destination;
+    }
+    
+}
+*/
