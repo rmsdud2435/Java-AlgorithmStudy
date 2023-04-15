@@ -87,9 +87,13 @@ public class 여행경로 {
     }
 
     private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> answerList, String startNode){
+
+        //정상적으로 티켓 다쓰면 리턴
         if(leftTickets.size() == 0){
             return answerList;
         }
+
+        //첫 시작은 ICN으로 무조건 시작
         if(answerList.size() == 0){
             answerList.add("ICN");
         }
