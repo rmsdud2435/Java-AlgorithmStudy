@@ -58,13 +58,16 @@ public class 여행경로 {
         }
 	}
 
-    private int answerLength;
+    private int answerCnt;
 
     public String[] solution(String[][] tickets) {
-        answerLength = tickets.length + 1;
-        String[] answer = new String[answerLength];
+        answerCnt = tickets.length + 1;
+        String[] answerArray = new String[answerCnt];
         
-        ArrayList<String> route = new ArrayList<String>();
+        //배열의 사이즈를 유동적으로 바꾸기 위해 List로 선언 
+        ArrayList<String> answerList = new ArrayList<String>();
+
+        //배열의 중간요소를 제거하기 편하게 Array를 List로 변환
         ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
         for(String[] ticket: tickets){
             ArrayList<String> leftTicket = new ArrayList<String>();
@@ -73,19 +76,22 @@ public class 여행경로 {
             leftTickets.add(leftTicket);
         }
         
-        route = dfs(leftTickets, route, "ICN");
-        for(int i = 0; i < route.size(); i++){
-            answer[i] = route.get(i);
+        answerList = dfs(leftTickets, answerList, "ICN");
+
+        //List를 다시 Array로 변환
+        for(int i = 0; i < answerList.size(); i++){
+            answerArray[i] = answerList.get(i);
         }
-        return answer;
+
+        return answerArray;
     }
 
-    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
+    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> answerList, String startNode){
         if(leftTickets.size() == 0){
-            return route;
+            return answerList;
         }
-        if(route.size() == 0){
-            route.add("ICN");
+        if(answerList.size() == 0){
+            answerList.add("ICN");
         }
 
         ArrayList<String> destination = new ArrayList<String>();
@@ -95,7 +101,7 @@ public class 여행경로 {
                 ArrayList<String> tempDestination = new ArrayList<String>();
                 ArrayList<String> tempRoute = new ArrayList<String>();
                 ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
-                tempRoute = makeCloneRoute(route, leftTicket.get(1));
+                tempRoute = makeCloneRoute(answerList, leftTicket.get(1));
                 tempLeftTickets = makeCloneLeftTickets(leftTickets, i);
                 tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
                 if(checkOrder(destination, tempDestination)){
