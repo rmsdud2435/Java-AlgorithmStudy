@@ -141,7 +141,7 @@ public class 여행경로 {
     }
 
     private boolean checkOrder(ArrayList<String> destination, ArrayList<String> tempDestination){
-        if(tempDestination.size() != answerLength){
+        if(tempDestination.size() != answerCnt){
             return false;
         }
         if(destination.size() == 0){
