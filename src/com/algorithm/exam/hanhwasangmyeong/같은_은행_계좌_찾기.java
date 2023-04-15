@@ -29,7 +29,7 @@ public class 같은_은행_계좌_찾기 {
 		//String s = "1011";	
 		//String s = "0110011";	
 		//String s = "000111";			
-		String s = "00001";			
+		//String s = "00001";			
 		//System.out.println(solution(s));
 
 	}

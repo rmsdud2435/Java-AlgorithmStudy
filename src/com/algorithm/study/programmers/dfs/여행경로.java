@@ -1,4 +1,4 @@
-package com.algorithm.study.programmers.bfs;
+package com.algorithm.study.programmers.dfs;
 
 import java.awt.Point;
 
@@ -34,82 +34,121 @@ tickets	return
 
 import java.util.*;
 
-public class 단어변환 {
+public class 여행경로 {
 	
     public static void main(String[] args) {
-    	// numbers			target	return
-    	// [1, 1, 1, 1, 1]	3		5
-    	// [4, 1, 2, 1]		4		2
-    	단어변환 obj = new 단어변환();
-		int[][] maps = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,1},{0,0,0,0,1}};
-        String begin1 = "hit";
-        String target1 = "cog";
-        String[] words1 = {"hot","dot","dog","log","lot","cog"};
-		System.out.println( obj.solution(begin1, target1, words1));
-		//int[][] maps2 = {{1,0,1,1,1},{1,0,1,0,1},{1,0,1,1,1},{1,1,1,0,0},{0,0,0,0,1}};
-		//System.out.println( obj.solution(maps2));
+    	// tickets			                                                                    return
+    	// [["ICN", "JFK"], ["HND", "IAD"], ["JFK", "HND"]]		                                ["ICN", "JFK", "HND", "IAD"]
+    	// [["ICN", "SFO"], ["ICN", "ATL"], ["SFO", "ATL"], ["ATL", "ICN"], ["ATL","SFO"]]      ["ICN", "ATL", "ICN", "SFO", "ATL", "SFO"]
+    	여행경로 obj = new 여행경로();
+		String[][] tickets1 = {{"ICN","JFK"},{"HND","IAD"},{"JFK","HND"}};
+        String[][] tickets2 = {{"ICN", "SFO"},{"ICN", "ATL"},{"SFO", "ATL"},{"ATL", "ICN"},{"ATL","SFO"}};
+
+        String[] answer1 = obj.solution(tickets1);
+        String[] answer2 = obj.solution(tickets2);
+
+        System.out.println("Example1 Answer");
+        for(String answer :answer1){
+            System.out.println(answer);
+        }
+
+        System.out.println("Example2 Answer");
+        for(String answer :answer2){
+            System.out.println(answer);
+        }
 	}
 
-    private HashMap<String, int> wordCntMap = new HashMap<String, int>();
+    private int answerLength;
 
-    public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        
-        init(words);
-        
-        bfs(begin, target, words);
-        return answer;
-    }
-
-}
-
-
-class Solution {
     public String[] solution(String[][] tickets) {
-        String[] answer = {};
-    
-        dfs
+        answerLength = tickets.length + 1;
+        String[] answer = new String[answerLength];
         
-        return answer;
-    }
-    
-    private dfs(String[][] leftTickets, ArrayList<String> route){
-        if(notUsedTickets.length == 0){
-            return route;
+        ArrayList<String> route = new ArrayList<String>();
+        ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
+        for(String[] ticket: tickets){
+            ArrayList<String> leftTicket = new ArrayList<String>();
+            leftTicket.add(ticket[0]);
+            leftTicket.add(ticket[1]);
+            leftTickets.add(leftTicket);
         }
         
-        String destination = route.get(route.length()-1);
-        String nextDestination = "";
-        int position;
-        
-        for(int i = 0; i < leftTickets.length; i++){
-            String[] leftTicket = leftTickets[i];
-            if(leftTicket[0].equals(destination)){
-                if(nextDestination == "" || nextDestination > leftTicket[1] ){
-                    nextDestination = leftTicket[1];
-                    position = i;
+        route = dfs(leftTickets, route, "ICN");
+        for(int i = 0; i < route.size(); i++){
+            answer[i] = route.get(i);
+        }
+        return answer;
+    }
+
+    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
+        if(leftTickets.size() == 0){
+            return route;
+        }
+        if(route.size() == 0){
+            route.add("ICN");
+        }
+
+        ArrayList<String> destination = new ArrayList<String>();
+        for(int i = 0; i < leftTickets.size(); i++){
+            ArrayList<String> leftTicket = leftTickets.get(i);
+            if(leftTicket.get(0).equals(startNode)){
+                ArrayList<String> tempDestination = new ArrayList<String>();
+                ArrayList<String> tempRoute = new ArrayList<String>();
+                ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
+                tempRoute = makeCloneRoute(route, leftTicket.get(1));
+                tempLeftTickets = makeCloneLeftTickets(leftTickets, i);
+                tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
+                if(checkOrder(destination, tempDestination)){
+                    destination = tempDestination;
                 }
             }
         }
-        
-        if(nextDestination == ""){
-            return ;
-        }else{
-            ArrayList<String> newRoute = new ArrayList<String>();
-            String[][] newLeftTickets = new String[leftTickets.length-1][2]();
-            for(String node :route){
-                newRoute.add(node);
-            }
-            newRoute.add(nextDestination);
-            
-            for(int j = 0; j < leftTickets.length; j ++ ){
-                newLeftTickets[i] = newLeftTickets
-            }
+        return destination;
+    }
+
+    private ArrayList<String> makeCloneRoute(ArrayList<String> route, String desination){
+        ArrayList<String> tempRoute = new ArrayList<String>();
+        for(String node: route){
+            tempRoute.add(node);
         }
+        tempRoute.add(desination);
+        
+        return tempRoute;
+    }
+
+    private ArrayList<ArrayList<String>> makeCloneLeftTickets(ArrayList<ArrayList<String>> leftTickets,int position){
+        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
+        for(ArrayList<String> leftTicket : leftTickets){
+            ArrayList<String> tempLeftTicket = new ArrayList<String>();
+            tempLeftTicket.add(leftTicket.get(0));
+            tempLeftTicket.add(leftTicket.get(1));
+            tempLeftTickets.add(tempLeftTicket);
+        }
+        tempLeftTickets.remove(position);
+        
+        return tempLeftTickets;
         
     }
-}
 
+    private boolean checkOrder(ArrayList<String> destination, ArrayList<String> tempDestination){
+        if(tempDestination.size() != answerLength){
+            return false;
+        }
+        if(destination.size() == 0){
+            return true;
+        }
+        for(int i = 0; i < destination.size(); i++){
+            if(destination.get(i).compareTo(tempDestination.get(i)) < 0){
+                return false;
+            }else if(destination.get(i).compareTo(tempDestination.get(i)) > 0){
+                return true;
+            }
+        }
+        return false;
+        
+    }
+
+}
 
 //문자열 비교하기도 정리 compareTo
 /*
@@ -329,98 +368,7 @@ class Solution {
 /*
 내 정답
 
-import java.util.*;
 
-class Solution {
-    private int answerLength;
-    
-    public String[] solution(String[][] tickets) {
-        answerLength = tickets.length + 1;
-        String[] answer = new String[answerLength];
-        
-        ArrayList<String> route = new ArrayList<String>();
-        ArrayList<ArrayList<String>> leftTickets = new ArrayList<ArrayList<String>>();
-        for(String[] ticket: tickets){
-            ArrayList<String> leftTicket = new ArrayList<String>();
-            leftTicket.add(ticket[0]);
-            leftTicket.add(ticket[1]);
-            leftTickets.add(leftTicket);
-        }
-        
-        route = dfs(leftTickets, route, "ICN");
-        for(int i = 0; i < route.size(); i++){
-            answer[i] = route.get(i);
-        }
-        return answer;
-    }
-    private ArrayList<String> makeCloneRoute(ArrayList<String> route, String desination){
-        ArrayList<String> tempRoute = new ArrayList<String>();
-        for(String node: route){
-            tempRoute.add(node);
-        }
-        tempRoute.add(desination);
-        
-        return tempRoute;
-    }
-    
-    private ArrayList<ArrayList<String>> makeCloneLeftTickets(ArrayList<ArrayList<String>> leftTickets,int position){
-        ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
-        for(ArrayList<String> leftTicket : leftTickets){
-            ArrayList<String> tempLeftTicket = new ArrayList<String>();
-            tempLeftTicket.add(leftTicket.get(0));
-            tempLeftTicket.add(leftTicket.get(1));
-            tempLeftTickets.add(tempLeftTicket);
-        }
-        tempLeftTickets.remove(position);
-        
-        return tempLeftTickets;
-        
-    }
-    private boolean checkOrder(ArrayList<String> destination, ArrayList<String> tempDestination){
-        if(tempDestination.size() != answerLength){
-            return false;
-        }
-        if(destination.size() == 0){
-            return true;
-        }
-        for(int i = 0; i < destination.size(); i++){
-            if(destination.get(i).compareTo(tempDestination.get(i)) < 0){
-                return false;
-            }else if(destination.get(i).compareTo(tempDestination.get(i)) > 0){
-                return true;
-            }
-        }
-        return false;
-        
-    }
-    
-    private ArrayList<String> dfs(ArrayList<ArrayList<String>> leftTickets, ArrayList<String> route, String startNode){
-        if(leftTickets.size() == 0){
-            return route;
-        }
-        if(route.size() == 0){
-            route.add("ICN");
-        }
-
-        ArrayList<String> destination = new ArrayList<String>();
-        for(int i = 0; i < leftTickets.size(); i++){
-            ArrayList<String> leftTicket = leftTickets.get(i);
-            if(leftTicket.get(0).equals(startNode)){
-                ArrayList<String> tempDestination = new ArrayList<String>();
-                ArrayList<String> tempRoute = new ArrayList<String>();
-                ArrayList<ArrayList<String>> tempLeftTickets = new ArrayList<ArrayList<String>>();
-                tempRoute = makeCloneRoute(route, leftTicket.get(1));
-                tempLeftTickets = makeCloneLeftTickets(leftTickets, i);
-                tempDestination = dfs(tempLeftTickets,tempRoute,leftTicket.get(1));
-                if(checkOrder(destination, tempDestination)){
-                    destination = tempDestination;
-                }
-            }
-        }
-        return destination;
-    }
-    
-}
 */
 /*
 모법답안
