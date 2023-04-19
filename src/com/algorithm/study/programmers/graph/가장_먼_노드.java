@@ -7,7 +7,10 @@ class Solution {
         int answer = 0;
         nodeArray = new int[n];
         bfs(1,edge,0);
-        System.out.println(nodeArray.toString());
+        for(int node : nodeArray){
+            System.out.println(node);
+        }
+        
         
         return answer;
     }
@@ -17,8 +20,8 @@ class Solution {
         for(int i = 0; i < edge.length; i++){
             int[] vertex = edge[i];
             if(vertex[0] == nodeNum){
-                if((nodeArray[vertex[1]] != 0) && (nodeArray[vertex[1]] <  currentCnt){
-                    nodeArray[vertex[1]] = currentCnt;
+                if((nodeArray[vertex[1]-1] == 0) || (nodeArray[vertex[1]-1] >  currentCnt)){
+                    nodeArray[vertex[1]-1] = currentCnt;
                     bfs(vertex[1], edge, currentCnt);
                 }
             }
@@ -32,3 +35,4 @@ class Solution {
     }
 
 }
+//Queue로 선언해서 해야할듯
