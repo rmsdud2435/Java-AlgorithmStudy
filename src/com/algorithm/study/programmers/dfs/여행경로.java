@@ -82,7 +82,8 @@ public class 여행경로 {
         for(int i = 0; i < answerList.size(); i++){
             answerArray[i] = answerList.get(i);
         }
-
+        HashMap<String, Integer> a = new  HashMap<String, Integer>();
+        
         return answerArray;
     }
 
